@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# QLI (Quantile LOWESS Intervals)
+# QLI (Quantile LOWESS Intervals) <a href='https://github.com/martinasladek/qli'><img src='man/figures/qli_hex' align="right" hspace="20"  height="139" /></a>
 
 <!-- badges: start -->
 <!-- badges: end -->
