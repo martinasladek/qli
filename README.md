@@ -1,55 +1,83 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# qli
+# QLI (Quantile LOWESS Intervals)
 
 <!-- badges: start -->
 <!-- badges: end -->
 
-The goal of qli is to …
+This is a supplementary package to the paper (currently preprint):
+
+Sladekova, M., & Field, A. P. (2024, June 28). Quantifying
+Heteroscedasticity in Linear Models Using Quantile LOWESS Intervals.
+<https://doi.org/10.31234/osf.io/gn4mr>
+
+The QLI method can be used for quantifying the amount of
+heteroscedasticity in linear models with continuous predictors. The
+method constructs an interval around the residuals and then estimates
+the change in the width of this interval as a function of either the
+predictor values or the fitted values.
+
+Method evaluation, example use, and interpretation are discussed in
+[Sladekova & Field (2024)](https://doi.org/10.31234/osf.io/gn4mr).
 
 ## Installation
 
-You can install the development version of qli from
-[GitHub](https://github.com/) with:
+The package is currently on available on CRAN. You can install the
+development version of qli from [GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("devtools")
 devtools::install_github("martinasladek/qli")
 ```
 
-## Example
+## Examples
 
-This is a basic example which shows you how to solve a common problem:
+The `qli()` function works with linear models fitted with `lm()`. The
+function takes the model and extracts the residuals and either the
+predictor values or the fitted values as specified by the user.
 
 ``` r
 library(qli)
-## basic example code
+
+cars_mod <- lm(dist ~ speed, data = cars)
+qli(mod = cars_mod)
+#> 
+#> Call:
+#> stats::lm(formula = lowess_wide ~ x + I(x^2) + I(x^3) + I(x^4), 
+#>     data = qli_df)
+#> 
+#> Coefficients:
+#> (Intercept)            x       I(x^2)       I(x^3)       I(x^4)  
+#>     2.34961      0.60082     -0.70221      0.01991      0.23298
 ```
 
-What is special about using `README.Rmd` instead of just `README.md`?
-You can include R chunks like so:
+The function returns the estimates for linear change x, quadratic change
+I(x^2), cubic change I(x^3), and quartic change I(x^4).
+
+By default, the function uses fitted values as the predictor. We can
+also look at the relation between the residuals and the specific
+predictors in the model:
 
 ``` r
-summary(cars)
-#>      speed           dist       
-#>  Min.   : 4.0   Min.   :  2.00  
-#>  1st Qu.:12.0   1st Qu.: 26.00  
-#>  Median :15.0   Median : 36.00  
-#>  Mean   :15.4   Mean   : 42.98  
-#>  3rd Qu.:19.0   3rd Qu.: 56.00  
-#>  Max.   :25.0   Max.   :120.00
+qli(mod = cars_mod, predictor = "speed")
+#> 
+#> Call:
+#> stats::lm(formula = lowess_wide ~ x + I(x^2) + I(x^3) + I(x^4), 
+#>     data = qli_df)
+#> 
+#> Coefficients:
+#> (Intercept)            x       I(x^2)       I(x^3)       I(x^4)  
+#>     2.19385      0.51056     -0.59048     -0.05258      0.15408
 ```
 
-You’ll still need to render `README.Rmd` regularly, to keep `README.md`
-up-to-date. `devtools::build_readme()` is handy for this. You could also
-use GitHub Actions to re-render `README.Rmd` every time you push. An
-example workflow can be found here:
-<https://github.com/r-lib/actions/tree/v1/examples>.
+We can also request a visual representation of the interval:
 
-You can also embed plots, for example:
+``` r
+qli(mod = cars_mod, predictor = "speed", plot = TRUE)
+```
 
-<img src="man/figures/README-pressure-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-4-1.png" width="100%" />
 
-In that case, don’t forget to commit and push the resulting figure
-files, so they display on GitHub and CRAN.
+Additional optional arguments are specified in the help documentation
+`?qli` .
