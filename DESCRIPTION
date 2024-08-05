@@ -14,3 +14,6 @@ BugReports: https://github.com/martinasladek/qli/issues
 Imports: 
     ggplot2,
     zoo
+Depends: 
+    R (>= 2.10)
+LazyData: true
