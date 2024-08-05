@@ -68,7 +68,7 @@ d$predicted.pandemic.delta=
 ubi_data <- d |>
   dplyr::transmute(
     observed_shift = delta.ubi, # actual shift in UBI support
-    predicted_shift = predicted.pandemic.delta, # shift predicted based on importance ratings
+    expected_shift = predicted.pandemic.delta, # shift predicted based on importance ratings
     normal_times_support = ubinormal_1
   )
 
