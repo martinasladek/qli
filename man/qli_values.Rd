@@ -9,6 +9,7 @@ qli_values(
   mod,
   predictor = "fitted",
   standardise = TRUE,
+  group_by = NULL,
   lower_quant = 0.025,
   upper_quant = 0.975,
   window_prop = 0.1,
@@ -18,9 +19,11 @@ qli_values(
 \arguments{
 \item{mod}{A linear model object fitted with lm()}
 
-\item{predictor}{A character vector. Name of the predictor as it appears in the dataset used for fitting \code{mod}. If predictor is "fitted" (default), fitted values from the \code{mod} are used instead.}
+\item{predictor}{A character. Name of the predictor as it appears in the dataset used for fitting \code{mod}. If predictor is "fitted" (default), fitted values from the \code{mod} are used instead.}
 
 \item{standardise}{If TRUE (default) predictor values and model residuals will be standardised.}
+
+\item{group_by}{Character specified a grouping variable name. If specified, QLI is produced for each group individually, using the residuals from the full model. Default is NULL.}
 
 \item{lower_quant}{A quantile to use for the lower boundary of the quantile lowess interval. A numeric value between 0 and 1. Default is 0.025 (recommended).}
 

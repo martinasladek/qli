@@ -15,7 +15,7 @@
 #' quantile_smoother(x = cars$speed, y = cars$dist)
 quantile_smoother	 <- function(y, x,
                                prop_overlap = 0.75,
-                               window_prop = 0.05,
+                               window_prop = 0.10,
                                tau = .95,
                                window_alignment = c("center"),
                                window_function = function(x) {stats::quantile(x, tau)}

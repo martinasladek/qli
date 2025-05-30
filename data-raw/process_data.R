@@ -73,3 +73,37 @@ ubi_data <- d |>
   )
 
 usethis::use_data(ubi_data, overwrite = TRUE)
+
+
+
+# climbing data
+
+squish <- function(x, new_min = min_bound, new_max = max_bound){
+  (x - min(x))/(max(x)-min(x)) * (new_max - new_min) + new_min
+}
+
+set.seed(2)
+
+n = 201
+b0 = 0
+vp_val = 0.45
+vp4 <- function(x1, vp_val) (5 / (1+exp(-vp_val*((x1)-1))))/2.5
+
+climb_df <- data.frame(
+  boulder_grade = rnorm(n)# |> squish(new_min = 1, new_max = 15)
+)
+
+climb_df$lead_grade <-  faux::rnorm_pre(climb_df, r = 0.71, empirical = TRUE)#|> squish(new_min = 1, new_max = 15)
+
+climb_df$boulder_efficacy <-  (0 + 0.2*climb_df$boulder_grade + rnorm(n, sd = 1) )
+
+climb_df$lead_efficacy <- (0.4 + 0.7*climb_df$lead_grade)  + vp4(climb_df$lead_grade, vp_val)*rnorm(n, sd = 1)
+
+climb_df_long <- data.frame(
+  climbing_style = rep(c("Bouldering", "Lead climbing"), each = n),
+  grade = c(climb_df$boulder_grade, climb_df$lead_grade) |> squish(new_min = 1, new_max = 15),
+  self_efficacy = c(climb_df$boulder_efficacy, climb_df$lead_efficacy) |> squish(new_min = 1, new_max = 1000) |> as.integer()
+)
+
+climbing_data <- climb_df_long
+usethis::use_data(climbing_data, overwrite = TRUE)

@@ -8,7 +8,7 @@ quantile_smoother(
   y,
   x,
   prop_overlap = 0.75,
-  window_prop = 0.05,
+  window_prop = 0.1,
   tau = 0.95,
   window_alignment = c("center"),
   window_function = function(x) {
